@@ -45,6 +45,7 @@ How to use it:
 	* Get into the running container by executing `docker exec -it hackernewsclone_web_1 bash`. Your container name may be different.
 	* Inside the container just execute `start_server.sh`.
 	* Hit http://localhost:8000/graphql and play around with graphiql.
+	* If you want to test the authentication part then you probably need a tool like Postman or Insomnia where you can put your auth token into the Authorization header with a JWT prefix
 	* When you are done, exit your container and execute `docker-compose down`
 
 Note: According to the howtographql.com tutorial you should create a virtual environment by invoking the following commands
@@ -65,5 +66,81 @@ python manage.py runserver
 ```
 
 The first four lines are already executed either by the Dockerfile or by docker-compose.yml. The last command is integrated and tweaked into the `start_server.sh` file.
+
+Mutations to try out:
+
+```
+mutation {
+  createLink(
+    url: "http://github.com",
+    description: "Lots of code"
+  ){
+    id
+    url
+    description
+  }
+}
+
+mutation {
+  createUser(
+    username: "christoph", email: "christoph@awesomecompany.com", password: "123"
+  ){
+    user {
+      id
+      username
+      email
+    }
+    
+  }
+}
+
+mutation {
+  tokenAuth(username: "christoph", password: "123"){
+    token
+  }
+}
+
+mutation {
+  verifyToken(token: "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6IkNocmlzdG9waCIsImV4cCI6MTUyNTcyMDkyNiwib3JpZ19pYXQiOjE1MjU3MjA2MjZ9.pk2fC6CsQItTm--YbQgFqMzVyO060HM4dSztAGiAZUg"){
+    payload
+  }
+}
+
+```
+
+
+Queries to try out:
+
+```
+query {
+  links {
+    id
+    description
+    url
+  }
+}
+
+query {
+  users {
+    id
+    username
+    email
+  }
+}
+
+// This one only works with properly set HTTP headers like Content-Type: application/json
+// and Authorization: JWT <token>
+query {
+	me {
+		id
+		username
+	}
+}
+
+```
+
+
+
+
 
 
