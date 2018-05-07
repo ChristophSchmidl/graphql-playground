@@ -22,3 +22,48 @@ How to use it:
 	* When you are done, exit your container and execute `docker-compose down`
 
 * **Note:** You probably have to change the docker-compose.yml file in the root of the GRAPHQL folder with regards to the volumes. When you are on a windows machine, you probably have to define the current directory as an absolute path like I did. If you are one a linux or mac machine then you can just comment out the windows related line and uncomment the line above in the docker-compose.yml file.
+
+
+## Second Project: hackernews-clone
+
+Based on:
+
+* Docker
+* Django
+* Graphene
+* Graphene-Django
+* Django-Filter
+* Django-Graphql-Jwt
+
+This project is based on the tutorial you can find on [https://www.howtographql.com/graphql-python/0-introduction/](https://www.howtographql.com/graphql-python/0-introduction/)
+
+How to use it:
+
+* After cloning the repository, cd into "hackernews-clone" and run 
+	* `docker-compose build`
+	* `docker-compose up -d`
+	* Get into the running container by executing `docker exec -it hackernewsclone_web_1 bash`. Your container name may be different.
+	* Inside the container just execute `start_server.sh`.
+	* Hit http://localhost:8000/graphql and play around with graphiql.
+	* When you are done, exit your container and execute `docker-compose down`
+
+Note: According to the howtographql.com tutorial you should create a virtual environment by invoking the following commands
+
+```
+python3.6 -m venv venv
+source venv/bin/activate
+```
+
+Because we already use docker as an isolated environment for one application this step is probably not necessary. Furthermore they state that with the activated environment you should run the following commands:
+
+```
+pip install django==2.0.2 graphene==2.0.1 graphene-django==2.0.0 django-filter==1.1.0 django-graphql-jwt==0.1.5
+django-admin startproject hackernews
+cd hackernews
+python manage.py migrate
+python manage.py runserver
+```
+
+The first four lines are already executed either by the Dockerfile or by docker-compose.yml. The last command is integrated and tweaked into the `start_server.sh` file.
+
+
