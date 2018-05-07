@@ -106,6 +106,42 @@ mutation {
   }
 }
 
+// This one only works with properly set HTTP headers like Content-Type: application/json
+// and Authorization: JWT <token>
+mutation {
+	createLink(
+		url: "https://github.com/christophschmidl",
+		description: "Christoph Github"
+	) {
+		id
+		url
+		description
+		postedBy {
+			id
+			username
+			email
+		}
+		
+	}
+}
+
+// This one only works with properly set HTTP headers like Content-Type: application/json
+// and Authorization: JWT <token>
+mutation {
+	createVote(linkId: 1) {
+		user {
+			id
+			username
+			email
+		}
+		link {
+			id
+			description
+			url
+		}
+	}
+}
+
 ```
 
 
@@ -137,6 +173,33 @@ query {
 	}
 }
 
+query {
+	votes {
+		id
+		user {
+			id
+			username
+		}
+		link {
+			id
+			url
+		}
+	}
+}
+
+query {
+	links {
+		id
+		url
+		votes {
+			id
+			user {
+				id
+				username
+			}
+		}
+	}
+}
 ```
 
 
