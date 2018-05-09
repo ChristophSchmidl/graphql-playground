@@ -164,6 +164,23 @@ mutation {
 Queries to try out:
 
 ```
+// If you want to see what's available
+query {
+  __schema {
+    types {
+      name
+    }
+  }
+}
+
+{
+  __type(name: "User") {
+    name
+    description
+  }
+}
+
+
 query {
   links {
     id
