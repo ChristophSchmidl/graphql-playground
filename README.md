@@ -142,6 +142,22 @@ mutation {
 	}
 }
 
+// Relay specific mutation.
+// This one only works with properly set HTTP headers like Content-Type: application/json
+// and Authorization: JWT <token>
+mutation {
+  relayCreateLink(input: {
+    url: "http://deployeveryday.com",
+    description: "Author's Blog"
+  }) {
+    link {
+      id
+      url
+      description
+    }
+  }
+}
+
 ```
 
 
@@ -199,6 +215,46 @@ query {
 			}
 		}
 	}
+}
+
+// Relay specific query
+query {
+  relayLinks {
+    edges {
+      node {
+        id
+        url
+        description
+        votes {
+          edges {
+            node {
+              id
+              user {
+                id
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+
+query {
+  relayLinks(first: 1) {
+    edges {
+      node {
+        id
+        url
+        description
+      }
+    }
+     pageInfo {
+      startCursor
+      endCursor
+    }
+  }
 }
 ```
 
